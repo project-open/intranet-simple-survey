@@ -93,10 +93,8 @@ select im_menu__del_module('intranet-simple-survey');
 create or replace function inline_0 ()
 returns integer as ' 
 declare
-    v_plugin            integer;
+    v_plugin		integer;
 begin
-    -- Show security messages inthe Admin Home Page
-    --
     v_plugin := im_component_plugin__new (
 	null,					-- plugin_id
 	''acs_object'',				-- object_type
@@ -106,11 +104,38 @@ begin
 	null,					-- context_id
 	''Project Survey Component'',		-- plugin_name
 	''intranet-simple-survey'',		-- package_name
-        ''right'',				-- location
+	''right'',				-- location
 	''/intranet/projects/view'',		-- page_url
-        null,					-- view_name
-        50,					-- sort_order
-        ''im_survsimp_project_component $project_id''	-- component_tcl
+	null,					-- view_name
+	50,					-- sort_order
+	''im_survsimp_component $project_id''	-- component_tcl
+    );
+    return 0;
+end;' language 'plpgsql';
+select inline_0 ();
+drop function inline_0 ();
+
+
+
+create or replace function inline_0 ()
+returns integer as '
+declare
+    v_plugin		integer;
+begin
+    v_plugin := im_component_plugin__new (
+	null,					-- plugin_id
+	''acs_object'',				-- object_type
+	now(),					-- creation_date
+	null,					-- creation_user
+	null,					-- creation_ip
+	null,					-- context_id
+	''Company Survey Component'',		-- plugin_name
+	''intranet-simple-survey'',		-- package_name
+	''right'',				-- location
+	''/intranet/companies/view'',		-- page_url
+	null,					-- view_name
+	20,					-- sort_order
+	''im_survsimp_component $company_id''   -- component_tcl
     );
     return 0;
 end;' language 'plpgsql';
@@ -156,19 +181,19 @@ begin
     where label=''admin'';
 
     v_menu := im_menu__new (
-	null,			   -- menu_id
-	''acs_object'',		   -- object_type
-	now(),			   -- creation_date
-	null,			   -- creation_user
-	null,			   -- creation_ip
-	null,			   -- context_id
-	''intranet-simple-survey'',	   -- package_name
-	''admin_survsimp'',		   -- label
-	''Simple Surveys'',		   -- name
-	''/intranet-simple-survey/admin/index'',	   -- url
-	83,			   -- sort_order
-	v_admin_menu,		   -- parent_menu_id
-	null			   -- visible_tcl
+	null,				-- menu_id
+	''acs_object'',			-- object_type
+	now(),				-- creation_date
+	null,				-- creation_user
+	null,				-- creation_ip
+	null,				-- context_id
+	''intranet-simple-survey'',	-- package_name
+	''admin_survsimp'',		-- label
+	''Simple Surveys'',		-- name
+	''/intranet-simple-survey/admin/index'',		-- url
+	83,				-- sort_order
+	v_admin_menu,			-- parent_menu_id
+	null				-- visible_tcl
     );
 
     PERFORM acs_permission__grant_permission(v_menu, v_admins, ''read'');
