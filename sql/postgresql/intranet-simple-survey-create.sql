@@ -76,6 +76,24 @@ insert into im_survsimp_object_map (
 
 
 ---------------------------------------------------------
+-- Change the "survsimp_take_survey" from being
+-- a child of the "read privilege" to a "write".
+-- This is necessary, because the read privilege
+-- is required for a user in order to be able to
+-- access any page of the simple-survey package.
+--
+-- However, we want to set permissions on a 
+-- survey-by-survey level. The "write" privilege
+-- is managable by the standard ]po[ security 
+-- maintenance screens.
+
+
+select acs_privilege__remove_child('read','survsimp_take_survey');
+select acs_privilege__add_child('write','survsimp_take_survey');
+
+
+
+---------------------------------------------------------
 -- delete potentially existing menus and plugins if this 
 -- file is sourced multiple times during development...
 
