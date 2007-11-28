@@ -33,11 +33,11 @@ ad_proc -private im_package_survsimp_id_helper {} {
 
 
 # -----------------------------------------------------------
-# Standard procedures
+# Component showing a) survey to fill out and b) surveys related to this object
 # -----------------------------------------------------------
 
 ad_proc im_survsimp_component { object_id } {
-    Shows al associated simple surveys for a given project or company
+    Shows all associated simple surveys for a given project or company
 } {
     set bgcolor(0) "class=roweven"
     set bgcolor(1) "class=rowodd"
@@ -58,6 +58,9 @@ ad_proc im_survsimp_component { object_id } {
 		)
     "
 
+    # -----------------------------------------------------------
+    # Surveys to fill out
+
     set survsimp_sql "
 	select
 		som.*,
@@ -76,10 +79,13 @@ ad_proc im_survsimp_component { object_id } {
 		    )
 		and im_object_permission_p(ss.survey_id, :current_user_id, 'survsimp_take_survey') = 't'
     "
-    set survsimp_html ""
+
+    set survsimp_html "
+	<table>
+	<tr class=rowtitle><td>Survey</td><td>Comment</td></tr>
+    "
     set ctr 0
     db_foreach survsimp_map $survsimp_sql {
-
 	set som_gif ""
 	if {"" != $som_note} {set som_gif [im_gif help $som_note]}
 	append survsimp_html "
@@ -91,24 +97,96 @@ ad_proc im_survsimp_component { object_id } {
 	incr ctr
     }
 
+    append survsimp_html "</table>\n"
+
     if {0 == $ctr} { 
-	set survsimp_html "
-	    <tr $bgcolor([expr $ctr % 2])>
-		<td colspan=2>[lang::message::lookup "" intranet-simple-survey.There_are_no_surveys_for_this_object "There are no surveys available for this object"]</td>
-	    </tr>
-	"
+	set survsimp_html ""
     }
 
-    set survsimp_html "
-	<table>
-	  <tr class=rowtitle>
-		<td>Survey</td>
-		<td>Comment</td>
-	  </tr>
-	  $survsimp_html
-	</table>
+    # -----------------------------------------------------------
+    # Related Surveys
+
+    set survsimp_responses_sql "
+	select	s.*,
+		r.response_id
+	from
+		survsimp_responses r,
+		survsimp_surveys s
+	where
+		r.survey_id = s.survey_id and
+		r.related_object_id = :object_id
+	order by
+		s.survey_id,
+		r.response_id DESC
     "
 
-    return $survsimp_html
+    set survsimp_response_html ""
+    set old_survey_id 0
+    set response_ctr 0
+    db_foreach survsimp_responses $survsimp_responses_sql {
+
+	# Create new headers for new surveys
+	if {$survey_id != $old_survey_id} {
+	    if {0 != $old_survey_id} {
+		# Close the last table
+		append survsimp_response_html "</table>\n"
+	    }
+	    append survsimp_response_html "
+		<table>
+		<tr class=rowtitle><td class=rowtitle colspan=2>$name</td></tr>
+	    "
+	
+	    set questions_sql "
+		select	substring(question_text for 20) as question_text
+		from	survsimp_questions
+		where	survey_id = :survey_id
+		order by sort_key
+	    "
+	    append survsimp_response_html "<tr class=rowtitle>\n"
+	    db_foreach q $questions_sql {
+		if {[string length $question_text] == 20} { append question_text "..." }
+		append survsimp_response_html "<td class=rowtitle>$question_text</td>\n"
+	    }
+	    append survsimp_response_html "</tr>\n"
+
+	    set old_survey_id $survey_id
+	}
+
+	set questions_sql "
+		select
+			r.*
+		from
+			survsimp_questions q,
+			survsimp_question_responses r
+		where
+			q.question_id = r.question_id
+			and r.response_id = :response_id
+		order by sort_key
+	"
+	append survsimp_response_html "<tr $bgcolor([expr $response_ctr % 2])>\n"
+	db_foreach q $questions_sql {
+	    append survsimp_response_html "
+		<td $bgcolor([expr $response_ctr % 2])>
+		$choice_id $boolean_answer $clob_answer $number_answer $varchar_answer $date_answer
+		</td>
+	    "
+	}
+	append survsimp_response_html "</tr>\n"
+
+	incr response_ctr
+    }
+
+    if {0 != $old_survey_id} {
+	append survsimp_response_html "</table>\n"
+    }
+
+    # -----------------------------------------------------------
+    # Return the results
+
+    return "
+	$survsimp_html
+	$survsimp_response_html
+    "
+
 }
 
