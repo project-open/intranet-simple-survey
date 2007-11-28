@@ -43,6 +43,8 @@ ad_proc im_survsimp_component { object_id } {
     set bgcolor(1) "class=rowodd"
     set survey_url "/simple-survey/one"
 
+    set max_header_len [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter "MaxTableHeaderLen" -default 12]
+
     set current_user_id [ad_get_user_id]
 
     # Get information about object type
@@ -123,6 +125,7 @@ ad_proc im_survsimp_component { object_id } {
     set survsimp_response_html ""
     set old_survey_id 0
     set response_ctr 0
+    set colspan 0
     db_foreach survsimp_responses $survsimp_responses_sql {
 
 	# Create new headers for new surveys
@@ -131,23 +134,23 @@ ad_proc im_survsimp_component { object_id } {
 		# Close the last table
 		append survsimp_response_html "</table>\n"
 	    }
-	    append survsimp_response_html "
-		<table>
-		<tr class=rowtitle><td class=rowtitle colspan=2>$name</td></tr>
-	    "
 	
 	    set questions_sql "
-		select	substring(question_text for 20) as question_text
+		select	substring(question_text for $max_header_len) as question_text
 		from	survsimp_questions
 		where	survey_id = :survey_id
 		order by sort_key
 	    "
-	    append survsimp_response_html "<tr class=rowtitle>\n"
+	    append survey_header "<tr class=rowtitle>\n"
+	    set colspan 0
 	    db_foreach q $questions_sql {
-		if {[string length $question_text] == 20} { append question_text "..." }
-		append survsimp_response_html "<td class=rowtitle>$question_text</td>\n"
+		if {[string length $question_text] == $max_header_len} { append question_text "..." }
+		append survey_header "<td class=rowtitle>$question_text</td>\n"
+		incr colspan
 	    }
-	    append survsimp_response_html "</tr>\n"
+	    append survey_header "</tr>\n"
+	    append survsimp_response_html "<table><tr class=rowtitle><td class=rowtitle colspan=$colspan>$name</td></tr>"
+	    append survsimp_response_html $survey_header
 
 	    set old_survey_id $survey_id
 	}
