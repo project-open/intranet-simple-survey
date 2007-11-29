@@ -106,8 +106,13 @@ insert into im_survsimp_object_map (
 
 alter table survsimp_responses
 add related_object_id integer references acs_objects;
+create index im_survsimp_responses_object_id_idx 
+on survsimp_responses (related_object_id);
 
-create index im_survsimp_responses_object_id_idx on survsimp_responses (related_object_id);
+alter table survsimp_responses
+add related_context_id integer references acs_objects;
+create index im_survsimp_responses_context_id_idx 
+on survsimp_responses (related_context_id);
 
 
 

@@ -43,7 +43,7 @@ ad_proc im_survsimp_component { object_id } {
     set bgcolor(1) "class=rowodd"
     set survey_url "/simple-survey/one"
 
-    set max_header_len [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter "MaxTableHeaderLen" -default 12]
+    set max_header_len [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter "MaxTableHeaderLen" -default 8]
 
     set current_user_id [ad_get_user_id]
 
@@ -105,28 +105,44 @@ ad_proc im_survsimp_component { object_id } {
 	set survsimp_html ""
     }
 
+
     # -----------------------------------------------------------
-    # Related Surveys
+    # Surveys Related to This User
 
     set survsimp_responses_sql "
-	select	s.*,
-		r.response_id
-	from
-		survsimp_responses r,
-		survsimp_surveys s
-	where
-		r.survey_id = s.survey_id and
-		r.related_object_id = :object_id
+	select	s.survey_id,
+		r.response_id,
+		o.creation_user as creation_user_id,
+		im_name_from_user_id(o.creation_user) as creation_user_name,
+		s.name as survey_name,
+		r.related_context_id,
+		acs_object__name(r.related_context_id) as related_context_name
+	from	survsimp_responses r,
+		survsimp_surveys s,
+		acs_objects o
+	where	r.survey_id = s.survey_id and
+		r.related_object_id = :object_id and
+		r.response_id = o.object_id
+
 	order by
 		s.survey_id,
 		r.response_id DESC
     "
+    set responses_list_list [db_list_of_lists responses $survsimp_responses_sql]
 
     set survsimp_response_html ""
     set old_survey_id 0
     set response_ctr 0
-    set colspan 0
-    db_foreach survsimp_responses $survsimp_responses_sql {
+    set colspan 2
+    foreach response $responses_list_list {
+
+	set survey_id [lindex $response 0]
+	set response_id [lindex $response 1]
+	set creation_user_id [lindex $response 2]
+	set creation_user_name [lindex $response 3]
+	set survey_name [lindex $response 4]
+	set related_context_id [lindex $response 5]
+	set related_context_name [lindex $response 6]
 
 	# Create new headers for new surveys
 	if {$survey_id != $old_survey_id} {
@@ -142,35 +158,55 @@ ad_proc im_survsimp_component { object_id } {
 		order by sort_key
 	    "
 	    append survey_header "<tr class=rowtitle>\n"
-	    set colspan 0
+	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Entered_By "Entered By"]</td>\n"
+	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Context "Context"]</td>\n"
+	    set colspan 2
 	    db_foreach q $questions_sql {
 		if {[string length $question_text] == $max_header_len} { append question_text "..." }
 		append survey_header "<td class=rowtitle>$question_text</td>\n"
 		incr colspan
 	    }
 	    append survey_header "</tr>\n"
-	    append survsimp_response_html "<table><tr class=rowtitle><td class=rowtitle colspan=$colspan>$name</td></tr>"
+	    append survsimp_response_html "
+		<table>
+		  <tr class=rowtitle><td class=rowtitle colspan=$colspan align=center>$survey_name</td></tr>
+	    "
 	    append survsimp_response_html $survey_header
 
 	    set old_survey_id $survey_id
 	}
 
 	set questions_sql "
-		select
-			r.*
-		from
-			survsimp_questions q,
+		select	r.response_id,
+			r.question_id,
+			r.choice_id,
+			sqc.label as choice,
+			r.boolean_answer,
+			r.clob_answer,
+			r.number_answer,
+			r.varchar_answer,
+			r.date_answer
+		from	survsimp_questions q,
 			survsimp_question_responses r
-		where
-			q.question_id = r.question_id
+			LEFT OUTER JOIN survsimp_question_choices sqc ON (r.choice_id = sqc.choice_id)
+		where	q.question_id = r.question_id
 			and r.response_id = :response_id
 		order by sort_key
 	"
-	append survsimp_response_html "<tr $bgcolor([expr $response_ctr % 2])>\n"
+	append survsimp_response_html "
+		<tr $bgcolor([expr $response_ctr % 2])>
+		<td $bgcolor([expr $response_ctr % 2])>
+			<a href=[export_vars -base "/intranet/users/view" {{user_id $creation_user_id}}]
+			>$creation_user_name</a>
+		</td>
+		<td $bgcolor([expr $response_ctr % 2])>
+			$related_context_id
+		</td>
+	"
 	db_foreach q $questions_sql {
 	    append survsimp_response_html "
 		<td $bgcolor([expr $response_ctr % 2])>
-		$choice_id $boolean_answer $clob_answer $number_answer $varchar_answer $date_answer
+		$choice $boolean_answer $clob_answer $number_answer $varchar_answer $date_answer
 		</td>
 	    "
 	}
@@ -182,14 +218,11 @@ ad_proc im_survsimp_component { object_id } {
     if {0 != $old_survey_id} {
 	append survsimp_response_html "</table>\n"
     }
+    if {0 == $response_ctr} { set survsimp_response_html "" }
 
     # -----------------------------------------------------------
     # Return the results
 
-    return "
-	$survsimp_html
-	$survsimp_response_html
-    "
-
+    return "${survsimp_html}${survsimp_response_html}"
 }
 
