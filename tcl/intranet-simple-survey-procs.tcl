@@ -223,6 +223,14 @@ ad_proc im_survsimp_component { object_id } {
     # -----------------------------------------------------------
     # Return the results
 
+    set take_survy_l10n [lang::message::lookup "" intranet-simple-survey.Take_a_Survey "Add a valuation"]
+    set take_survey_url [export_vars -base "/simple-survey/" {{related_object_id $object_id}}]
+    append survsimp_response_html "
+	<ul>
+	<li><a href=\"$take_survey_url\">$take_survy_l10n</a></li>
+	</ul>
+    "
+
     return "${survsimp_html}${survsimp_response_html}"
 }
 
