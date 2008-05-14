@@ -100,30 +100,30 @@ ad_proc im_survsimp_component { object_id } {
     }
 
     append survsimp_html "</table>\n"
+    if {0 == $ctr} { set survsimp_html "" }
 
-    if {0 == $ctr} { 
-	set survsimp_html ""
-    }
 
 
     # -----------------------------------------------------------
     # Surveys Related to This User
 
     set survsimp_responses_sql "
-	select	s.survey_id,
+	select
+		s.survey_id,
 		r.response_id,
 		o.creation_user as creation_user_id,
 		im_name_from_user_id(o.creation_user) as creation_user_name,
 		s.name as survey_name,
 		r.related_context_id,
 		acs_object__name(r.related_context_id) as related_context_name
-	from	survsimp_responses r,
+	from
+		survsimp_responses r,
 		survsimp_surveys s,
 		acs_objects o
-	where	r.survey_id = s.survey_id and
+	where
+		r.survey_id = s.survey_id and
 		r.related_object_id = :object_id and
 		r.response_id = o.object_id
-
 	order by
 		s.survey_id,
 		r.response_id DESC
