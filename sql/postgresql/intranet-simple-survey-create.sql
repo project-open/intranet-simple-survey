@@ -54,51 +54,7 @@ create index im_survsimp_object_map_acs_object_type_idx on im_survsimp_object_ma
 create index im_survsimp_object_map_biz_object_type_idx on im_survsimp_object_map (biz_object_type_id);
 create index im_survsimp_object_map_survey_idx on im_survsimp_object_map (survey_id);
 
-insert into im_survsimp_object_map (
-	acs_object_type,
-	biz_object_type_id,
-	survey_id,
-	name,
-	obligatory_p,
-	recurrence_tcl,
-	interviewee_profile_id,
-	note			
-) values (
-	'im_project',
-	null,		-- all project subtypes
-	(select survey_id from survsimp_surveys where short_name = 'pm_weekly'),
-	'Weekly Project Report',
-	't',
-	'',		-- Recurrence
-	467,		-- Project Managers
-	'Please deliver weekly until Friday 11am'
-);
 
-
-
-
----------------------------------------------------------
--- Object - SurvSimp relationship
--- 
--- fraber 071120: replaced by object_id in survsimp_survey table.
---
--- select acs_rel_type__create_type (
--- 	'im_survsimp_rel',		-- relationship (object) name
--- 	'Related Survey',		-- pretty name
--- 	'Related Surveys',		-- pretty plural
--- 	'relationship',			-- supertype
--- 	'im_survsimp_rels',		-- table_name
--- 	'rel_id',			-- id_column
--- 	'intranet-simple-survey',	-- package_name
--- 	'acs_object',			-- object_type_one
--- 	'member',			-- role_one
--- 	0,				-- min_n_rels_one
--- 	null::integer,			-- max_n_rels_one
--- 	'survsimp_response',		-- object_type_two
--- 	'member',			-- role_two
--- 	0::integer,			-- min_n_rels_two
--- 	null				-- max_n_rels_two
--- );
 
 ---------------------------------------------------------
 -- Object - SurvSimp relationship
