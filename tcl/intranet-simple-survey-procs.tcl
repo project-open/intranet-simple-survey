@@ -157,7 +157,7 @@ ad_proc im_survsimp_component { object_id } {
 		where	survey_id = :survey_id
 		order by sort_key
 	    "
-	    append survey_header "<tr class=rowtitle>\n"
+	    set survey_header "<tr class=rowtitle>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Entered_By "Entered By"]</td>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Context "Context"]</td>\n"
 	    set colspan 2
