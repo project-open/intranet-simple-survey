@@ -115,9 +115,16 @@ ad_proc im_survsimp_component { object_id } {
 		im_name_from_user_id(o.creation_user) as creation_user_name,
 		s.name as survey_name,
 		r.related_context_id,
-		acs_object__name(r.related_context_id) as related_context_name
+		acs_object__name(r.related_context_id) as related_context_name,
+		ibou.url as related_context_object_url
 	from
-		survsimp_responses r,
+		survsimp_responses r
+		LEFT OUTER JOIN acs_objects rco ON (r.related_context_id = rco.object_id)
+		LEFT OUTER JOIN (
+			select	*
+			from	im_biz_object_urls
+			where	url_type = 'view'
+		) ibou ON (rco.object_type = ibou.object_type),
 		survsimp_surveys s,
 		acs_objects o
 	where
@@ -143,6 +150,7 @@ ad_proc im_survsimp_component { object_id } {
 	set survey_name [lindex $response 4]
 	set related_context_id [lindex $response 5]
 	set related_context_name [lindex $response 6]
+	set related_context_url [lindex $response 7]
 
 	# Create new headers for new surveys
 	if {$survey_id != $old_survey_id} {
@@ -200,7 +208,8 @@ ad_proc im_survsimp_component { object_id } {
 			>$creation_user_name</a>
 		</td>
 		<td $bgcolor([expr $response_ctr % 2])>
-			$related_context_id
+			<a href=\"$related_context_url$related_context_id\"
+			>$related_context_name</a>
 		</td>
 	"
 	db_foreach q $questions_sql {
@@ -225,7 +234,7 @@ ad_proc im_survsimp_component { object_id } {
 
     set take_survy_l10n [lang::message::lookup "" intranet-simple-survey.Take_a_Survey "Take a survey"]
     set return_url [im_url_with_query]
-    set take_survey_url [export_vars -base "/simple-survey/" {{related_object_id $object_id} return_url}]
+    set take_survey_url [export_vars -base "/simple-survey/" {{related_object_id $object_id} {related_context_id $object_id} return_url}]
     append survsimp_response_html "
 	<ul>
 	<li><a href=\"$take_survey_url\">$take_survy_l10n</a></li>
