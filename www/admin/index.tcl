@@ -88,6 +88,9 @@ db_foreach group_list $group_list_sql {
     regsub -all {\-} $group_id "_" gid
     append main_sql_select "\tim_object_permission_p(ss.survey_id, $group_id, 'survsimp_take_survey') as p${gid}_read_p,\n"
 
+    # Empty group name for registered users etc.
+    if {"" == $profile_gif} { set profile_gif "user" }
+
     append table_header "
       <td class=rowtitle><A href=$group_url?group_id=$group_id>
       [im_gif $profile_gif $group_name]
