@@ -86,7 +86,7 @@ db_foreach group_list $group_list_sql {
     lappend group_ids $group_id
     lappend group_names $group_name
     regsub -all {\-} $group_id "_" gid
-    append main_sql_select "\tim_object_permission_p(ss.survey_id, $group_id, 'read') as p${gid}_read_p,\n"
+    append main_sql_select "\tim_object_permission_p(ss.survey_id, $group_id, 'survsimp_take_survey') as p${gid}_read_p,\n"
 
     append table_header "
       <td class=rowtitle><A href=$group_url?group_id=$group_id>
@@ -164,11 +164,11 @@ db_foreach survsimp_query $survsimp_sql {
 	regsub -all {\-} $horiz_group_id "_" horiz_gid
 
 	set read_p [expr "\$p${horiz_gid}_read_p"]
-	set action "add_readable"
+	set action "add_take_survey"
 	set letter "r"
 	if {$read_p == "t"} {
 	    set read "<A href=$toggle_url?object_id=$survey_id&action=remove_readable&[export_url_vars horiz_group_id return_url]><b>R</b></A>\n"
-	    set action "remove_readable"
+	    set action "remove_take_survey"
 	    set letter "<b>R</b>"
 	}
 	set read "<A href=$toggle_url?[export_url_vars horiz_group_id object_id action return_url]>$letter</A>\n"
