@@ -110,7 +110,7 @@ if {[llength $project_id] == 1} {
 # Defaults
 
 if {"" == $start_date} { set start_date [db_string start_date "select now()::date - 90"] }
-if {"" == $end_date} { set end_date [db_string start_date "select now()::date + 3"] }
+if {"" == $end_date} { set end_date [db_string start_date "select now()::date + 7"] }
 
 set project_url "/intranet/projects/view?project_id="
 set one_response_url "/intranet-simple-survey/one-response?response_id="
