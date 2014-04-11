@@ -46,13 +46,16 @@ if {![string equal "t" $read_p]} {
 
 # Check for the default survey name if survey_id was not specified
 if {"" == $survey_id} {
-    set default_survey_name [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter DefaultProjectReportSurveyName -default "Project Status Report"]
+    set default_survey_name [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter DefaultProjectReportSurveyName -default "Project Manager Weekly Report"]
     set survey_id [db_string default_survey "select survey_id from survsimp_surveys where lower(trim(name)) = lower(trim(:default_survey_name))" -default ""]
 }
 
-if {"" == $survey_id} { set survey_id [db_string last_survey "select min(survey_id) from survsimp_surveys" -default ""] }
+if {"" == $survey_id} {
+    set survey_id [db_string first_survey "select min(survey_id) from survsimp_surveys where enabled_p = 't'" -default ""]
+}
+
 if {"" == $survey_id} { 
-    ad_return_complaint 1 "No surveys defined yet"
+    ad_return_complaint 1 "<b>No surveys defined yet</b>:<br>You need to define at least one active survey in /simple-survey/admin/."
     ad_script_abort
 }
 
