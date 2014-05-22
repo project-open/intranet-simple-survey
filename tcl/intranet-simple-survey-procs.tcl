@@ -21,7 +21,7 @@ ad_library {
 
 ad_proc -public im_package_survsimp_id { } {
 } {
-    return [util_memoize "im_package_survsimp_id_helper"]
+    return [util_memoize im_package_survsimp_id_helper]
 }
 
 ad_proc -private im_package_survsimp_id_helper {} {
