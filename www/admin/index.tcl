@@ -90,12 +90,12 @@ db_foreach group_list $group_list_sql {
 
     append table_header "
       <td class=rowtitle><A href=$group_url?group_id=$group_id>
-      [im_gif $profile_gif $group_name]
+      [im_gif -translate_p 1 $profile_gif $group_name]
     </A></td>\n"
     incr num_groups
 }
 append table_header "
-  <td class=rowtitle>[im_gif del "Delete Simple Survey"]</td>
+  <td class=rowtitle>[im_gif -translate_p 1 del "Delete Simple Survey"]</td>
 </tr>
 "
 

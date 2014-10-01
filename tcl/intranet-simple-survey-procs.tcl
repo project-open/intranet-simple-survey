@@ -89,7 +89,7 @@ ad_proc im_survsimp_component { object_id } {
     set ctr 0
     db_foreach survsimp_map $survsimp_sql {
 	set som_gif ""
-	if {"" != $som_note} {set som_gif [im_gif help $som_note]}
+	if {"" != $som_note} {set som_gif [im_gif -translate_p 0 help $som_note]}
 	append survsimp_html "
 	    <tr $bgcolor([expr $ctr % 2])>
 		<td><a href=\"$survey_url?survey_id=$survey_id\">$short_name</a></td>

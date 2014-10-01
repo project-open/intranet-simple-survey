@@ -260,7 +260,7 @@ if {[info exists color_survey($survey_id)]} {
 	# Convert Green/Yellow/Red responses into BB images
 	set color [string tolower $response]
 	set alt_text $question_text
-	set gif [im_gif "bb_$color" $alt_text $border $gif_size $gif_size]
+	set gif [im_gif -translate_p 0 "bb_$color" $alt_text $border $gif_size $gif_size]
 	set html "<a href='$one_response_url$response_id'>$gif</a>\n"
 	
 	# Append html to the cell
@@ -277,7 +277,7 @@ if {[info exists color_survey($survey_id)]} {
 	set key "$project_id-$monday_julian"
 	
 	set alt_text $survey_name
-	set gif [im_gif "bb_green" $alt_text $border $gif_size $gif_size]
+	set gif [im_gif -translate_p 0 "bb_green" $alt_text $border $gif_size $gif_size]
 	set html "<a href='$one_response_url$response_id'>$gif</a>\n"
 	
 	# Write to HTML cell (no append!)
