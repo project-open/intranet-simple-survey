@@ -67,11 +67,9 @@ set group_list_sql {
 		groups g,
 		im_profiles p
 	where
-		g.group_id = o.object_id
-		and g.group_id = p.profile_id
-		and o.object_type = 'im_profile'
-UNION
-	select	'Registered Users', -2,	''
+		g.group_id = o.object_id and
+		g.group_id = p.profile_id and
+		(o.object_type = 'im_profile' OR o.object_id = -2)
 }
 
 
