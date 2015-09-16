@@ -242,80 +242,80 @@ select acs_privilege__add_child('write','survsimp_take_survey');
 --
 
 create or replace function inline_0 ()
-returns integer as ' 
+returns integer as $body$ 
 declare
 	v_plugin		integer;
 begin
 	v_plugin := im_component_plugin__new (
 		null,					-- plugin_id
-		''im_component_plugin'',		-- object_type
+		'im_component_plugin',		-- object_type
 		now(),					-- creation_date
 		null,					-- creation_user
 		null,					-- creation_ip
 		null,					-- context_id
-		''Project Survey Component'',		-- plugin_name
-		''intranet-simple-survey'',		-- package_name
-		''right'',				-- location
-		''/intranet/projects/view'',		-- page_url
+		'Project Survey Component',		-- plugin_name
+		'intranet-simple-survey',		-- package_name
+		'right',				-- location
+		'/intranet/projects/view',		-- page_url
 		null,					-- view_name
 		50,					-- sort_order
-		''im_survsimp_component $project_id''	-- component_tcl
+		'im_survsimp_component $project_id'	-- component_tcl
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
 
 create or replace function inline_0 ()
-returns integer as '
+returns integer as $body$
 declare
 	v_plugin		integer;
 begin
 	v_plugin := im_component_plugin__new (
 		null,					-- plugin_id
-		''im_component_plugin'',		-- object_type
+		'im_component_plugin',		-- object_type
 		now(),					-- creation_date
 		null,					-- creation_user
 		null,					-- creation_ip
 		null,					-- context_id
-		''Company Survey Component'',		-- plugin_name
-		''intranet-simple-survey'',		-- package_name
-		''right'',				-- location
-		''/intranet/companies/view'',		-- page_url
+		'Company Survey Component',		-- plugin_name
+		'intranet-simple-survey',		-- package_name
+		'right',				-- location
+		'/intranet/companies/view',		-- page_url
 		null,					-- view_name
 		20,					-- sort_order
-		''im_survsimp_component $company_id''   -- component_tcl
+		'im_survsimp_component $company_id'   -- component_tcl
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
 
 
 create or replace function inline_0 ()
-returns integer as '
+returns integer as $body$
 declare
 	v_plugin		integer;
 begin
 	v_plugin := im_component_plugin__new (
 		null,					-- plugin_id
-		''acs_object'',				-- object_type
+		'acs_object',				-- object_type
 		now(),					-- creation_date
 		null,					-- creation_user
 		null,					-- creation_ip
 		null,					-- context_id
-		''User Survey Component'',		-- plugin_name
-		''intranet-simple-survey'',		-- package_name
-		''right'',				-- location
-		''/intranet/users/view'',		-- page_url
+		'User Survey Component',		-- plugin_name
+		'intranet-simple-survey',		-- package_name
+		'right',				-- location
+		'/intranet/users/view',		-- page_url
 		null,					-- view_name
 		120,					-- sort_order
-		''im_survsimp_component $user_id''	-- component_tcl
+		'im_survsimp_component $user_id'	-- component_tcl
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
@@ -323,27 +323,27 @@ drop function inline_0 ();
 
 
 create or replace function inline_0 ()
-returns integer as '
+returns integer as $body$
 declare
 	v_plugin		integer;
 begin
 	v_plugin := im_component_plugin__new (
 		null,					-- plugin_id
-		''im_component_plugin'',		-- object_type
+		'im_component_plugin',		-- object_type
 		now(),					-- creation_date
 		null,					-- creation_user
 		null,					-- creation_ip
 		null,					-- context_id
-		''Ticket Survey Component'',		-- plugin_name
-		''intranet-simple-survey'',		-- package_name
-		''right'',				-- location
-		''/intranet-helpdesk/new'',		-- page_url
+		'Ticket Survey Component',		-- plugin_name
+		'intranet-simple-survey',		-- package_name
+		'right',				-- location
+		'/intranet-helpdesk/new',		-- page_url
 		null,					-- view_name
 		120,					-- sort_order
-		''im_survsimp_component $ticket_id''	-- component_tcl
+		'im_survsimp_component $ticket_id'	-- component_tcl
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
@@ -355,50 +355,21 @@ drop function inline_0 ();
 -- Menus
 --
 
-create or replace function inline_0 ()
-returns integer as '
-declare
-	v_menu			integer;
-	v_admin_menu 		integer;
-	v_employees		integer;
-	v_accounting		integer;
-	v_senman		integer;
-	v_customers		integer;
-	v_freelancers		integer;
-	v_admins		integer;
-begin
-
-	select group_id into v_admins from groups where group_name = ''P/O Admins'';
-	select group_id into v_senman from groups where group_name = ''Senior Managers'';
-	select group_id into v_accounting from groups where group_name = ''Accounting'';
-	select group_id into v_customers from groups where group_name = ''Customers'';
-	select group_id into v_freelancers from groups where group_name = ''Freelancers'';
-
-	select menu_id into v_admin_menu from im_menus where label=''admin'';
-
-	v_menu := im_menu__new (
+SELECT im_menu__new (
 		null,					-- menu_id
-		''im_menu'',				-- object_type
+		'im_menu',				-- object_type
 		now(),					-- creation_date
 		null,					-- creation_user
 		null,					-- creation_ip
 		null,					-- context_id
-		''intranet-simple-survey'',		-- package_name
-		''admin_survsimp'',			-- label
-		''Simple Surveys'',			-- name
-		''/intranet-simple-survey/admin/index'', -- url
+		'intranet-simple-survey',		-- package_name
+		'admin_survsimp',			-- label
+		'Simple Surveys',			-- name
+		'/intranet-simple-survey/admin/index', -- url
 		83,					-- sort_order
-		v_admin_menu,				-- parent_menu_id
+		(select menu_id from im_menus where label='admin'),	-- parent_menu_id
 		null					-- visible_tcl
-	);
-
-	PERFORM acs_permission__grant_permission(v_menu, v_admins, ''read'');
-	PERFORM acs_permission__grant_permission(v_menu, v_senman, ''read'');
-
-	return 0;
-end;' language 'plpgsql';
-select inline_0 ();
-drop function inline_0 ();
+);
 
 
 -- Setup the Simple Survey section in the reports page
@@ -431,7 +402,7 @@ SELECT acs_permission__grant_permission(
 -- Setup the Simple Survey Report in Menus
 --
 create or replace function inline_0 ()
-returns integer as '
+returns integer as $body$
 declare
 	-- Menu IDs
 	v_menu			integer;
@@ -446,34 +417,34 @@ declare
 	v_proman		integer;
 	v_admins		integer;
 begin
-	select group_id into v_senman from groups where group_name = ''Senior Managers'';
-	select group_id into v_proman from groups where group_name = ''Project Managers'';
-	select group_id into v_accounting from groups where group_name = ''Accounting'';
+	select group_id into v_senman from groups where group_name = 'Senior Managers';
+	select group_id into v_proman from groups where group_name = 'Project Managers';
+	select group_id into v_accounting from groups where group_name = 'Accounting';
 
-	select menu_id into v_reporting_other_menu from im_menus where label=''reporting-simple-survey'';
+	select menu_id into v_reporting_other_menu from im_menus where label='reporting-simple-survey';
 
 	v_menu := im_menu__new (
 		null,				-- menu_id
-		''im_menu'',			-- object_type
+		'im_menu',			-- object_type
 		now(),				-- creation_date
 		null,				-- creation_user
 		null,				-- creation_ip
 		null,				-- context_id
-		''intranet-simple-survey'',	-- package_name
-		''reporting_survsimp_results'',	-- label
-		''Simple Survey Results'',	-- name
-		''/intranet-simple-survey/reporting/survsimp-results'',	-- url
+		'intranet-simple-survey',	-- package_name
+		'reporting_survsimp_results',	-- label
+		'Simple Survey Results',	-- name
+		'/intranet-simple-survey/reporting/survsimp-results',	-- url
 		10,				-- sort_order
 		v_reporting_other_menu,		-- parent_menu_id
 		null				-- visible_tcl
 	);
 
-	PERFORM acs_permission__grant_permission(v_menu, v_accounting, ''read'');
-	PERFORM acs_permission__grant_permission(v_menu, v_senman, ''read'');
-	PERFORM acs_permission__grant_permission(v_menu, v_proman, ''read'');
+	PERFORM acs_permission__grant_permission(v_menu, v_accounting, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_senman, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_proman, 'read');
 
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
@@ -482,35 +453,35 @@ drop function inline_0 ();
 -- Setup the Simple Survey Report in Menus
 --
 create or replace function inline_0 ()
-returns integer as '
+returns integer as $body$
 declare
 	v_menu			integer;
 	v_project_menu 		integer;
 	v_employees		integer;
 begin
-	select group_id into v_employees from groups where group_name = ''Employees'';
-	select menu_id into v_project_menu from im_menus where label=''projects'';
+	select group_id into v_employees from groups where group_name = 'Employees';
+	select menu_id into v_project_menu from im_menus where label='projects';
 
 	v_menu := im_menu__new (
 		null,							-- menu_id
-		''im_menu'',						-- object_type
+		'im_menu',						-- object_type
 		now(),							-- creation_date
 		null,							-- creation_user
 		null,							-- creation_ip
 		null,							-- context_id
-		''intranet-simple-survey'',				-- package_name
-		''project_reports'',					-- label
-		''Project Reports'',					-- name
-		''/intranet-simple-survey/reporting/project-reports'',	-- url
+		'intranet-simple-survey',				-- package_name
+		'project_reports',					-- label
+		'Project Reports',					-- name
+		'/intranet-simple-survey/reporting/project-reports',	-- url
 		-5,							-- sort_order
 		v_project_menu,						-- parent_menu_id
 		null							-- visible_tcl
 	);
 
-	PERFORM acs_permission__grant_permission(v_menu, v_employees, ''read'');
+	PERFORM acs_permission__grant_permission(v_menu, v_employees, 'read');
 
 	return 0;
-end;' language 'plpgsql';
+end;$body$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 
