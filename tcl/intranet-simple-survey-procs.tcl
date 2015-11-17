@@ -45,7 +45,7 @@ ad_proc im_survsimp_component { object_id } {
     set max_header_len [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter "MaxTableHeaderLen" -default 8]
     set max_clob_len 20
 
-    set current_user_id [ad_get_user_id]
+    set current_user_id [ad_conn user_id]
 
     # Get information about object type
     db_1row object_type_info "
