@@ -104,7 +104,7 @@ append table_header "
 
 set table "
 <form action=dynfield-action method=post>
-[export_form_vars return_url]
+[export_vars -form {return_url}]
 <table>
 $table_header\n"
 
