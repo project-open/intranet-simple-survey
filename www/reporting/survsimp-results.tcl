@@ -22,13 +22,13 @@ ad_page_contract {
 # ------------------------------------------------------------
 
 set menu_label "reporting_survsimp_results"
-set current_user_id [ad_maybe_redirect_for_registration]
+set current_user_id [auth::require_login]
 set read_p [db_string report_perms "
 	select	im_object_permission_p(m.menu_id, :current_user_id, 'read')
 	from	im_menus m
 	where	m.label = :menu_label
 " -default 'f']
-if {![string equal "t" $read_p]} {
+if {"t" ne $read_p } {
     ad_return_complaint 1 "<li>
     [lang::message::lookup "" intranet-reporting.You_dont_have_permissions "You don't have the necessary permissions to view this page"]"
     return
@@ -102,16 +102,16 @@ if {[info exists evaluee_id] && 0 != $evaluee_id && "" != $evaluee_id} {
     lappend criteria "h.user_id = :evaluee_id"
 }
 
-if {[exists_and_not_null start_date]} {
+if {([info exists start_date] && $start_date ne "")} {
     lappend criteria "ro.creation_date >= :start_date::timestamptz"
 }
 
-if {[exists_and_not_null end_date]} {
+if {([info exists end_date] && $end_date ne "")} {
     lappend criteria "ro.creation_date <= :end_date::timestamptz"
 }
 
 set where_clause [join $criteria " and\n            "]
-if { ![empty_string_p $where_clause] } {
+if { $where_clause ne "" } {
     set where_clause " and $where_clause"
 }
 

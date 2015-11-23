@@ -17,7 +17,7 @@ ad_page_contract {
 # Defaults & Security
 # ------------------------------------------------------
 
-set user_id [ad_maybe_redirect_for_registration]
+set user_id [auth::require_login]
 set user_is_admin_p [im_is_user_site_wide_or_intranet_admin $user_id]
 
 if {!$user_is_admin_p} {
@@ -147,7 +147,7 @@ set ctr 0
 set old_package_name ""
 db_foreach survsimp_query $survsimp_sql {
     incr ctr
-    append table "\n<tr$bgcolor([expr $ctr % 2])>\n"
+    append table "\n<tr$bgcolor([expr {$ctr % 2}])>\n"
     append table "
   <td>
     <A href=[export_vars -base $survsimp_admin_url {survey_id return_url}]>
@@ -165,11 +165,11 @@ db_foreach survsimp_query $survsimp_sql {
 	set action "add_readable"
 	set letter "r"
 	if {$read_p == "t"} {
-	    set read "<A href=$toggle_url?object_id=$survey_id&action=remove_readable&[export_vars -url { horiz_group_id return_url}]><b>R</b></A>\n"
+	    set read "<A href=$toggle_url?object_id=$survey_id&action=remove_readable&[export_vars { horiz_group_id return_url}]><b>R</b></A>\n"
 	    set action "remove_readable"
 	    set letter "<b>R</b>"
 	}
-	set read "<A href=$toggle_url?[export_vars -url { horiz_group_id object_id action return_url}]>$letter</A>\n"
+	set read "<A href=[export_vars -base $toggle_url { horiz_group_id object_id action return_url}]>$letter</A>\n"
 
 	append table "
   <td align=center>

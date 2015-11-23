@@ -13,7 +13,7 @@ ad_page_contract {
     response_id:integer
 } 
 
-set current_user_id [ad_maybe_redirect_for_registration]
+set current_user_id [auth::require_login]
 
 # -----------------------------------------------------------------
 # Basic survey information and security
@@ -47,7 +47,7 @@ if {"" == $related_object_id} {
 
     # This is a survey response not related to a ]po[
     # object, so use the standard SurvSimp permissions:
-    ad_require_permission $survey_id survsimp_admin_survey
+    permission::require_permission -object_id $survey_id -privilege survsimp_admin_survey
 
 } else {
 

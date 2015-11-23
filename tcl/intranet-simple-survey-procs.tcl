@@ -91,7 +91,7 @@ ad_proc im_survsimp_component { object_id } {
 	set som_gif ""
 	if {"" != $som_note} {set som_gif [im_gif -translate_p 0 help $som_note]}
 	append survsimp_html "
-	    <tr $bgcolor([expr $ctr % 2])>
+	    <tr $bgcolor([expr {$ctr % 2}])>
 		<td><a href=\"$survey_url?survey_id=$survey_id\">$short_name</a></td>
 		<td>$som_name $som_gif</td>
 	    </tr>
@@ -200,12 +200,12 @@ ad_proc im_survsimp_component { object_id } {
 		order by sort_key
 	"
 	append survsimp_response_html "
-		<tr $bgcolor([expr $response_ctr % 2])>
-		<td $bgcolor([expr $response_ctr % 2])>
+		<tr $bgcolor([expr {$response_ctr % 2}])>
+		<td $bgcolor([expr {$response_ctr % 2}])>
 			<a href=[export_vars -base "/intranet/users/view" {{user_id $creation_user_id}}]
 			>$creation_user_name</a>
 		</td>
-		<td $bgcolor([expr $response_ctr % 2])>
+		<td $bgcolor([expr {$response_ctr % 2}])>
 			<a href=\"$related_context_url$related_context_id\"
 			>$related_context_name</a>
 		</td>
@@ -213,7 +213,7 @@ ad_proc im_survsimp_component { object_id } {
 	db_foreach q $questions_sql {
 	    if {[string length $clob_answer] == $max_clob_len} { append clob_answer " ..." }
 	    append survsimp_response_html "
-		<td $bgcolor([expr $response_ctr % 2])>
+		<td $bgcolor([expr {$response_ctr % 2}])>
 		$choice $boolean_answer $clob_answer $number_answer $varchar_answer $date_answer
 		</td>
 	    "

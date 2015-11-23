@@ -31,14 +31,14 @@ ad_page_contract {
 # ---------------------------------------------------------------
 
 set menu_label "reporting_survsimp_results"
-set current_user_id [ad_maybe_redirect_for_registration]
+set current_user_id [auth::require_login]
 set read_p [db_string report_perms "
 	select	im_object_permission_p(m.menu_id, :current_user_id, 'read')
 	from	im_menus m
 	where	m.label = :menu_label
 " -default 'f']
 set read_p "t"
-if {![string equal "t" $read_p]} {
+if {"t" ne $read_p } {
     ad_return_complaint 1 "<li>
     [lang::message::lookup "" intranet-reporting.You_dont_have_permissions "You don't have the necessary permissions to view this page"]"
     return
@@ -321,7 +321,7 @@ foreach project_tuple $left_dim {
     set type_id [lindex $project_tuple 4]
     set type [lindex $project_tuple 5]
 
-    set row_html "<tr$bgcolor([expr $ctr % 2])><td><a href='$project_url$project_id'>$project_name</a></td>\n"
+    set row_html "<tr$bgcolor([expr {$ctr % 2}])><td><a href='$project_url$project_id'>$project_name</a></td>\n"
 
     foreach date_tuple $top_dim {
 	set monday_julian [lindex $date_tuple 0]

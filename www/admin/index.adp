@@ -1,6 +1,6 @@
 <master>
-<property name="context">@context_bar@</property>
-<property name="title">@page_title@</property>
+<property name="context">@context_bar;literal@</property>
+<property name="doc(title)">@page_title;literal@</property>
 <property name="admin_navbar_label">admin_dynfield</property>
 
 <h3>Global Survey Permissions</h3>
