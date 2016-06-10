@@ -1,4 +1,4 @@
-# /packages/intranet-simple-survey/www/reporting/project-reports.tcl
+# /packages/intranet-simple-survey/www/reporting/traffic-light-report.tcl
 #
 # Copyright (c) 2003-2010 ]project-open[
 #
@@ -113,7 +113,7 @@ if {[llength $project_id] == 1} {
 # Defaults
 
 if {"" == $start_date} { set start_date [db_string start_date "select now()::date - 90"] }
-if {"" == $end_date} { set end_date [db_string start_date "select now()::date + 7"] }
+if {"" == $end_date} { set end_date [db_string start_date "select now()::date + 30"] }
 
 set project_url "/intranet/projects/view?project_id="
 set one_response_url "/intranet-simple-survey/one-response?response_id="
@@ -373,7 +373,7 @@ set left_navbar_html "
 	           [_ intranet-core.Filter_Projects]
         	</div>
 
-        <form action='/intranet-simple-survey/reporting/project-reports' method=GET>
+        <form action='/intranet-simple-survey/reporting/traffic-light-report' method=GET>
         <table border=0 cellspacing=1 cellpadding=1>
         <tr>
           <td class=form-label>[lang::message::lookup "" intranet-simple-survey.Survey "Survey"]</td>
