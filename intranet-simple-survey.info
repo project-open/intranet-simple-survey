@@ -21,7 +21,7 @@
         <callbacks>
         </callbacks>
         <parameters>
-            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="DefaultProjectReportSurveyName"  default="Project Status Report" description="Name of the survey that should be shown by default in the /intranet-simple-survey/reporting/project-reports project reports page. The default is 'Project Status Report'."/>
+            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="DefaultProjectReportSurveyName"  default="Project Manager Weekly Report" description="Name of the survey that should be shown by default in the /intranet-simple-survey/reporting/project-reports project reports page. The default is 'Project Manager Weekly Report'."/>
         </parameters>
 
     </version>
