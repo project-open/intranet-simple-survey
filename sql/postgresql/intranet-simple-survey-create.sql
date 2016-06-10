@@ -472,7 +472,7 @@ begin
 		'intranet-simple-survey',				-- package_name
 		'project_reports',					-- label
 		'Project Reports',					-- name
-		'/intranet-simple-survey/reporting/project-reports',	-- url
+		'/intranet-simple-survey/reporting/traffic-light-report',	-- url
 		-5,							-- sort_order
 		v_project_menu,						-- parent_menu_id
 		null							-- visible_tcl
