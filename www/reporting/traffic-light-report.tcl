@@ -220,6 +220,7 @@ set projects_sql "
 		im_projects children
 	where
 		parent.parent_id is null and
+		parent.project_status_id in ([join [im_sub_categories [im_project_status_open]] ", "]) and
 		children.project_id = i.project_id and
 		children.tree_sortkey between parent.tree_sortkey and tree_right(parent.tree_sortkey) and
 		children.project_type_id not in ([im_project_type_task], [im_project_type_ticket])
