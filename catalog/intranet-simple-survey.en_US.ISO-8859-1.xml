@@ -2,8 +2,11 @@
 <message_catalog package_key="intranet-simple-survey" locale="en_US" charset="ISO-8859-1">
 
   <msg key="One_Response">One Response</msg>
+  <msg key="Project_Report_Help">RAG Traffic Light Report Help</msg>
   <msg key="Project_Reports">Project Reports</msg>
+  <msg key="Simple_Surveys">Simple Surveys</msg>
   <msg key="Survey">Survey</msg>
   <msg key="Take_a_Survey">Take a survey</msg>
+  <msg key="Traffic_Light_Report">RAG Traffic Light Report</msg>
   <msg key="Week">Week</msg>
 </message_catalog>
