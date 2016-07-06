@@ -13,7 +13,7 @@
 <td>
 	<h1><%= [lang::message::lookup "" intranet-simple-survey.Project_Report_Help "Project Report Help"] %></h1>
 	<p>
-	<%= [lang::message::lookup "" intranet-simple-survey.Project_Report_Help "
+	<%= [lang::message::lookup "" intranet-simple-survey.Project_Report_Help_Blurb "
 	This report shows the 'traffic light' status of project reports from the last 60 days.<br>
 	Please:<br>
 	<ul>
