@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="intranet-simple-survey" locale="de_DE" charset="ISO-8859-1">
 
+  <msg key="One_Response">Eine Antwort</msg>
+  <msg key="Project_Reports">Projektberichte</msg>
+  <msg key="Simple_Surveys">Einfache Umfragen</msg>
+  <msg key="Survey">Umfrage</msg>
   <msg key="Take_a_Survey">An einer Umfrage teilnehmen</msg>
+  <msg key="Traffic_Light_Report">Rot-Gelb-Grün Ampelbericht</msg>
+  <msg key="Week">Woche</msg>
 </message_catalog>
