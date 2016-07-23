@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="intranet-simple-survey" locale="en_US" charset="ISO-8859-1">
 
+  <msg key="Context">Context</msg>
+  <msg key="Entered_By">Entered by</msg>
   <msg key="One_Response">One Response</msg>
   <msg key="Project_Report_Help">RAG Traffic Light Report Help</msg>
+  <msg key="Project_Report_Help_Blurb">This report shows the &#39;traffic light&#39; status of project reports from the last 60 days.
+Please:
+&lt;ul&gt;
+&lt;li&gt;Hold your mouse over the colored dots to see the corresponding status question.&lt;/li&gt;
+&lt;li&gt;Click on one of the colored dots to see the full status report.&lt;/li&gt;
+&lt;/ul&gt;
+System administrators can configure the project status report categories in the Admin -&amp;gt; Simple Survey section.</msg>
   <msg key="Project_Reports">Project Reports</msg>
   <msg key="Simple_Surveys">Simple Surveys</msg>
   <msg key="Survey">Survey</msg>
