@@ -114,7 +114,8 @@ ad_proc im_survsimp_component { object_id } {
 		s.name as survey_name,
 		r.related_context_id,
 		acs_object__name(r.related_context_id) as related_context_name,
-		ibou.url as related_context_object_url
+		ibou.url as related_context_object_url,
+		to_char(o.creation_date, 'YYYY-MM-DD') as creation_date
 	from
 		survsimp_responses r
 		LEFT OUTER JOIN acs_objects rco ON (r.related_context_id = rco.object_id)
@@ -149,6 +150,7 @@ ad_proc im_survsimp_component { object_id } {
 	set related_context_id [lindex $response 5]
 	set related_context_name [lindex $response 6]
 	set related_context_url [lindex $response 7]
+	set creation_date [lindex $response 8]
 
 	# Create new headers for new surveys
 	if {$survey_id != $old_survey_id} {
@@ -164,6 +166,7 @@ ad_proc im_survsimp_component { object_id } {
 		order by sort_key
 	    "
 	    set survey_header "<tr class=rowtitle>\n"
+	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Date "Date"]</td>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Entered_By "Entered By"]</td>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Context "Context"]</td>\n"
 	    set colspan 2
@@ -192,15 +195,21 @@ ad_proc im_survsimp_component { object_id } {
 			r.number_answer,
 			r.varchar_answer,
 			r.date_answer
-		from	survsimp_questions q,
+		from	acs_objects o,
+			survsimp_questions q,
 			survsimp_question_responses r
 			LEFT OUTER JOIN survsimp_question_choices sqc ON (r.choice_id = sqc.choice_id)
-		where	q.question_id = r.question_id
+		where	r.response_id = o.object_id and
+			q.question_id = r.question_id
 			and r.response_id = :response_id
 		order by sort_key
 	"
 	append survsimp_response_html "
 		<tr $bgcolor([expr {$response_ctr % 2}])>
+		<td $bgcolor([expr {$response_ctr % 2}])>
+			<a href=[export_vars -base "/simple-survey/one" {survey_id response_id}]
+			>$creation_date</a>
+		</td>
 		<td $bgcolor([expr {$response_ctr % 2}])>
 			<a href=[export_vars -base "/intranet/users/view" {{user_id $creation_user_id}}]
 			>$creation_user_name</a>
