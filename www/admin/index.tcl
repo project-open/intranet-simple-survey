@@ -70,7 +70,7 @@ set group_list_sql {
 		g.group_id = o.object_id and
 		g.group_id = p.profile_id and
 		(o.object_type = 'im_profile' OR o.object_id = -2) and
-		g.group_name not in ('P/O Admins', ']po[ Admins')
+		g.group_id != [im_profile_po_admins]
 }
 
 
