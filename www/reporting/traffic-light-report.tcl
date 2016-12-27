@@ -32,6 +32,7 @@ ad_page_contract {
 
 set menu_label "reporting_survsimp_results"
 set current_user_id [auth::require_login]
+set return_url [im_url_with_query]
 set read_p [db_string report_perms "
 	select	im_object_permission_p(m.menu_id, :current_user_id, 'read')
 	from	im_menus m
@@ -116,7 +117,7 @@ if {"" == $start_date} { set start_date [db_string start_date "select now()::dat
 if {"" == $end_date} { set end_date [db_string start_date "select now()::date + 30"] }
 
 set project_url "/intranet/projects/view?project_id="
-set one_response_url "/intranet-simple-survey/one-response?response_id="
+set response_base_url "/intranet-simple-survey/one-response"
 
 
 # ------------------------------------------------------------
@@ -262,7 +263,8 @@ if {[info exists color_survey($survey_id)]} {
 	set color [string tolower $response]
 	set alt_text $question_text
 	set gif [im_gif -translate_p 0 "bb_$color" $alt_text $border $gif_size $gif_size]
-	set html "<a href='$one_response_url$response_id'>$gif</a>\n"
+	set response_url [export_vars -base $response_base_url {response_id return_url}]
+	set html "<a href='$response_url'>$gif</a>\n"
 	
 	# Append html to the cell
 	set val ""
@@ -279,7 +281,8 @@ if {[info exists color_survey($survey_id)]} {
 	
 	set alt_text $survey_name
 	set gif [im_gif -translate_p 0 "bb_green" $alt_text $border $gif_size $gif_size]
-	set html "<a href='$one_response_url$response_id'>$gif</a>\n"
+	set response_url [export_vars -base $response_base_url {response_id return_url}]
+	set html "<a href='$response_url'>$gif</a>\n"
 	
 	# Write to HTML cell (no append!)
 	set report_hash($key) $html

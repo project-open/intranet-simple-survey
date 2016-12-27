@@ -6,3 +6,9 @@
 <property name="show_context_help">@show_context_help_p;literal@</property>
 
 @html;noquote@
+
+<form action="/intranet-simple-survey/one-response-delete" method=POST>
+<%= [export_vars -form {response_id return_url}] %>
+<input type=submit value=Delete>
+</form>
+

@@ -11,6 +11,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     response_id:integer
+    { return_url "" }
 } 
 
 set current_user_id [auth::require_login]
