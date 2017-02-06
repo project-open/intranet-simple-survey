@@ -405,5 +405,4 @@ set left_navbar_html "
         </form>
 
       	</div>
-      <hr/>
 "
