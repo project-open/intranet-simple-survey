@@ -4,7 +4,6 @@
   <msg key="Context">Kontext</msg>
   <msg key="Entered_By">Eingetragen von</msg>
   <msg key="One_Response">Eine Antwort</msg>
-  <msg key="Project_Report_Help">Ampel Bericht Hilfe</msg>
   <msg key="Project_Report_Help_Blurb">Dieser Bericht zeigt den &#39;Ampel Status&#39; offener Projekte der letzten 60 Tage. Bitte:
 &lt;ul&gt; 
 &lt;li&gt;Halten Sie die Maus über die farbigen Punkte, um die Status Beschreibung zu sehen.&lt;/li&gt;
