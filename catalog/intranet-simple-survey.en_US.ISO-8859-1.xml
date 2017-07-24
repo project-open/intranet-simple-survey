@@ -13,6 +13,7 @@ Please:
 &lt;/ul&gt;
 System administrators can configure the project status report categories in the Admin -&amp;gt; Simple Survey section.</msg>
   <msg key="Project_Reports">Project Reports</msg>
+  <msg key="Simple_Survey_Results">Simple Survery Results</msg>
   <msg key="Simple_Surveys">Simple Surveys</msg>
   <msg key="Survey">Survey</msg>
   <msg key="Take_a_Survey">Take a survey</msg>
