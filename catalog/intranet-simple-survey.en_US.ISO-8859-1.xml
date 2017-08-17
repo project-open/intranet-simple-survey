@@ -2,6 +2,7 @@
 <message_catalog package_key="intranet-simple-survey" locale="en_US" charset="ISO-8859-1">
 
   <msg key="Context">Context</msg>
+  <msg key="Date">Date</msg>
   <msg key="Entered_By">Entered by</msg>
   <msg key="One_Response">One Response</msg>
   <msg key="Project_Report_Help">RAG Traffic Light Report Help</msg>
