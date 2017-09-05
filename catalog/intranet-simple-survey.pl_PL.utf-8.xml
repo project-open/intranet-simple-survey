@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <message_catalog package_key="intranet-simple-survey" locale="pl_PL" charset="utf-8">
 
-  <msg key="Take_a_Survey">Wykonaj Ankietę</msg>
+  <msg key="Context">Kontekst</msg>
+  <msg key="Date">Data</msg>
+  <msg key="Entered_By">Wprowadzone przez</msg>
+  <msg key="One_Response">Jadna odpowiedź</msg>
+  <msg key="Project_Report_Help">Pomoc dla raportu świateł drogowych</msg>
+  <msg key="Project_Report_Help_Blurb">Raport ten pokazuje status &#34;świateł drogowych&#34; raportów projektowych z ostatnich 60 dni.
+&lt;ul&gt;
+&lt;li&gt;Najedź myszką nad kolorowe kropki, żeby zobaczyć odpowiadające im pytania statusowe.&lt;/li&gt;
+&lt;li&gt;Kliknij na kolorową kropkę, żeby zobaczyć pełny raport statusu.&lt;/li&gt;
+&lt;/ul&gt;
+Administrator systemu może konfigurować kategorie raportu statusu projektu w sekcji Administracja -&amp;gt; Proste ankiety.</msg>
+  <msg key="Project_Reports">Raporty projektowe</msg>
+  <msg key="Simple_Survey_Results">Wyniki prostej ankiety</msg>
+  <msg key="Simple_Surveys">Proste ankiety</msg>
+  <msg key="Survey">Ankieta</msg>
+  <msg key="Take_a_Survey">Wypełnij ankietę</msg>
+  <msg key="Traffic_Light_Report">Raport świateł drogowych</msg>
+  <msg key="Week">Tydzień</msg>
 </message_catalog>
