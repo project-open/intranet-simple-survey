@@ -5,18 +5,18 @@
   <msg key="Date">Datum</msg>
   <msg key="Entered_By">Eingetragen von</msg>
   <msg key="One_Response">Eine Antwort</msg>
-  <msg key="Project_Report_Help">Ampel Bericht Hilfe</msg>
-  <msg key="Project_Report_Help_Blurb">Dieser Bericht zeigt den &#39;Ampel Status&#39; offener Projekte der letzten 60 Tage. Bitte:
+  <msg key="Project_Report_Help">Ampelbericht - Hilfe</msg>
+  <msg key="Project_Report_Help_Blurb">Dieser Bericht zeigt den ?Ampel-Status? offener Projekte der letzten 60 Tage. Bitte:
 &lt;ul&gt; 
-&lt;li&gt;Halten Sie die Maus über die farbigen Punkte, um die Status Beschreibung zu sehen.&lt;/li&gt;
-&lt;li&gt;Clicken Sie auf die farbigen Punkte, um die Status Details zu sehen.&lt;/li&gt;
+&lt;li&gt;Halten Sie die Maus über die farbigen Punkte, um die Status-Beschreibung zu sehen.&lt;/li&gt;
+&lt;li&gt;Klicken Sie auf die farbigen Punkte, um die Status-Details zu sehen.&lt;/li&gt;
 &lt;/ul&gt;
-Systemadministratoren können die Status Kategorien konfigurieren in der Admin -&amp;gt; Simple Survey Sektion.</msg>
+Systemadministratoren können die Status-Kategorien in der Sektion ?Admin - Einfache Umfrage? konfigurieren.</msg>
   <msg key="Project_Reports">Projektberichte</msg>
-  <msg key="Simple_Survey_Results">Simple Survery - Ergebnisse</msg>
+  <msg key="Simple_Survey_Results">Einfache Umfragen - Ergebnisse</msg>
   <msg key="Simple_Surveys">Einfache Umfragen</msg>
   <msg key="Survey">Umfrage</msg>
   <msg key="Take_a_Survey">An einer Umfrage teilnehmen</msg>
-  <msg key="Traffic_Light_Report">Rot-Gelb-Grün Ampelbericht</msg>
+  <msg key="Traffic_Light_Report">Ampelbericht (Rot-Gelb-Grün)</msg>
   <msg key="Week">Woche</msg>
 </message_catalog>
