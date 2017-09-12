@@ -11,10 +11,10 @@
 &lt;li&gt;Halten Sie die Maus über die farbigen Punkte, um die Status-Beschreibung zu sehen.&lt;/li&gt;
 &lt;li&gt;Klicken Sie auf die farbigen Punkte, um die Status-Details zu sehen.&lt;/li&gt;
 &lt;/ul&gt;
-Systemadministratoren können die Status-Kategorien in der Sektion ?Admin - Einfache Umfrage? konfigurieren.</msg>
+Systemadministratoren können die Status-Kategorien in der Sektion ?Admin - Umfragen? konfigurieren.</msg>
   <msg key="Project_Reports">Projektberichte</msg>
-  <msg key="Simple_Survey_Results">Einfache Umfragen - Ergebnisse</msg>
-  <msg key="Simple_Surveys">Einfache Umfragen</msg>
+  <msg key="Simple_Survey_Results">Umfragen - Ergebnisse</msg>
+  <msg key="Simple_Surveys">Umfragen</msg>
   <msg key="Survey">Umfrage</msg>
   <msg key="Take_a_Survey">An einer Umfrage teilnehmen</msg>
   <msg key="Traffic_Light_Report">Ampelbericht (Rot-Gelb-Grün)</msg>
