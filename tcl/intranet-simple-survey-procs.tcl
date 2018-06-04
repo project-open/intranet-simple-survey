@@ -32,6 +32,23 @@ ad_proc -private im_package_survsimp_id_helper {} {
 }
 
 
+ad_proc -public im_survsimp_survey_options { 
+    {include_empty 0} 
+} {
+    Returns a list of surveys together with their IDs
+} {
+    set options [db_list_of_lists survey_options "
+	select	short_name, survey_id
+	from	survsimp_surveys
+	where	(enabled_p is null OR enabled_p = 't')
+	order by short_name
+    "]
+    if {$include_empty} { set options [linsert $options 0 { "" "" }] }
+    return $options
+}
+
+
+
 # -----------------------------------------------------------
 # Component showing a) survey to fill out and b) surveys related to this object
 # -----------------------------------------------------------
@@ -44,7 +61,7 @@ ad_proc im_survsimp_component { object_id } {
     set survey_url "/simple-survey/one"
     set max_header_len [parameter::get_from_package_key -package_key "intranet-simple-survey" -parameter "MaxTableHeaderLen" -default 8]
     set max_clob_len 20
-
+    set return_url [im_url_with_query]
     set current_user_id [ad_conn user_id]
 
     # Get information about object type
@@ -240,14 +257,20 @@ ad_proc im_survsimp_component { object_id } {
     # -----------------------------------------------------------
     # Return the results
 
+    append survsimp_response_html "<ul>\n"
     set take_survy_l10n [lang::message::lookup "" intranet-simple-survey.Take_a_Survey "Take a survey"]
-    set return_url [im_url_with_query]
     set take_survey_url [export_vars -base "/simple-survey/" {{related_object_id $object_id} {related_context_id $object_id} return_url}]
-    append survsimp_response_html "
-	<ul>
-	<li><a href=\"$take_survey_url\">$take_survy_l10n</a></li>
-	</ul>
-    "
+    append survsimp_response_html "<li><a href=\"$take_survey_url\">$take_survy_l10n</a></li>\n"
+
+    set admin_p [expr [im_biz_object_admin_p $current_user_id $object_id] || [im_is_user_site_wide_or_intranet_admin]]
+    if {$admin_p} {
+	set invite_members_l10n [lang::message::lookup "" intranet-simple-survey.Invite_Members_to_Survey "Invite members to take a survey"]
+	set invite_members_url [export_vars -base "/intranet-simple-survey/invite-members" {object_id return_url}]
+	append survsimp_response_html "<li><a href=\"$invite_members_url\">$invite_members_l10n</a></li>\n"
+    }
+
+    append survsimp_response_html "</ul>\n"
+
 
     return "${survsimp_html}${survsimp_response_html}"
 }
