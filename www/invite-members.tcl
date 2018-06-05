@@ -63,10 +63,10 @@ if {$message_exists_p} {
 Survey name: %survey_name%
 
 Please click on this link to take the survey:
-%survey_url_auto_login%
+%system_url%%survey_url%
 
 The survey is related to: %object_name%
-%object_url_auto_login%
+%system_url%%object_url%
 
 
 Best regards

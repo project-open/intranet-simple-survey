@@ -64,6 +64,15 @@ if {"CurrentUser" eq [parameter::get_from_package_key -package_key "intranet-sim
     set sender_email [db_string sender_email "select email from parties where party_id = :current_user_id" -default $sender_email]
 } 
 
+db_1row survey_info "
+	select	name as survey_name,
+		short_name as survey_short_name,
+		description as survey_description
+	from	survsimp_surveys
+	where	survey_id = :survey_id
+"
+
+
 set found_sender_p 0
 db_1row user_info "
 	select	pe.person_id as sender_user_id,
@@ -108,30 +117,39 @@ foreach id $notifyee_id {
 
 
     set auto_login [im_generate_auto_login -user_id $user_id]
-    set survey_url [export_vars -base "$system_url/simple-survey/take" {survey_id {related_object_id $object_id}}]
-    set object_url "$system_url$object_base_url$object_id"
+    set survey_url [export_vars -base "/simple-survey/one" {survey_id {related_object_id $object_id}}]
+    set object_url "$object_base_url$object_id"
     set survey_url_auto_login [export_vars -base "$system_url/intranet/auto-login" {user_id {url $survey_url} auto_login}]
     set object_url_auto_login [export_vars -base "$system_url/intranet/auto-login" {user_id {url $object_url} auto_login}]
 
 
     # Replace message %...% variables by user's variables
     set substitution_list [list \
-				   name $name \
-				   first_names $first_names \
-				   last_name $last_name \
-				   email $email \
-				   auto_login $auto_login \
-				   sender_name $sender_name \
-				   sender_first_names $sender_first_names \
-				   sender_last_name $sender_last_name \
-				   sender_email $sender_email \
-				   user_id $user_id \
-				   object_url $object_url \
-				   survey_url $survey_url \
-				   object_url_auto_login $object_url_auto_login \
-				   survey_url_auto_login $survey_url_auto_login \
+			       system_url $system_url \
+			       user_id $user_id \
+			       name $name \
+			       first_names $first_names \
+			       last_name $last_name \
+			       email $email \
+			       auto_login $auto_login \
+			       sender_name $sender_name \
+			       sender_first_names $sender_first_names \
+			       sender_last_name $sender_last_name \
+			       sender_email $sender_email \
+			       survey_url $survey_url \
+			       survey_url_auto_login $survey_url_auto_login \
+			       survey_name $survey_name \
+			       survey_short_name $survey_short_name \
+			       survey_description $survey_description \
+			       object_url $object_url \
+			       object_url_auto_login $object_url_auto_login \
+			       object_name $object_name \
     ]
     set message_subst [lang::message::format $message $substitution_list]
+    set message_subst [regsub -all "\r\n" $message_subst "\n"]
+
+    #ad_return_complaint 1 "<pre>[string2hex $message_subst]</pre>"; ad_script_abort
+    #ad_return_complaint 1 "<pre>subject=$subject\nbody=$message_subst\n$substitution_list</pre>"
 
     # Remember the date of the last email
     if {[im_column_exists persons last_email_sent]} {
