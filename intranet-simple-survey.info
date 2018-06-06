@@ -13,17 +13,15 @@
         <summary>Allows to associated &quot;Simple Surveys&quot; with business objects such as users, projects and companies.</summary>
         <release-date>2016-11-15</release-date>
         <vendor url="http://www.project-open.com/">]project-open[</vendor>
+	<license>]project-open[ Free License (FL)</license>
         <description format="text/plain">&quot;Simple Surveys&quot; are able to capture semi-structured information such as project reports, provider evaluations, ... This module allows to associate recurring surveys for objects and to track their completion</description>
-
         <provides url="intranet-simple-survey" version="3.4.1.0.3"/>
         <requires url="intranet-core" version="3.2"/>
         <requires url="simple-survey" version="0.2"/>
-
         <callbacks>
         </callbacks>
         <parameters>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="DefaultProjectReportSurveyName"  default="Project Manager Weekly Report" description="Name of the survey that should be shown by default in the /intranet-simple-survey/reporting/project-reports project reports page. The default is 'Project Manager Weekly Report'."/>
         </parameters>
-
     </version>
 </package>
