@@ -156,7 +156,7 @@ ad_proc im_survsimp_component { object_id } {
     set survsimp_response_html ""
     set old_survey_id 0
     set response_ctr 0
-    set colspan 2
+    set colspan 3
     foreach response $responses_list_list {
 
 	set survey_id [lindex $response 0]
@@ -186,7 +186,7 @@ ad_proc im_survsimp_component { object_id } {
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Date "Date"]</td>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Entered_By "Entered By"]</td>\n"
 	    append survey_header "<td class=rowtitle>[lang::message::lookup "" intranet-simple-survey.Context "Context"]</td>\n"
-	    set colspan 2
+	    set colspan 3
 	    db_foreach q $questions_sql {
 		if {[string length $question_text] == $max_header_len} { append question_text "..." }
 		append survey_header "<td class=rowtitle>$question_text</td>\n"
