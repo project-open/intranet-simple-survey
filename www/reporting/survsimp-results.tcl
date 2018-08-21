@@ -230,7 +230,7 @@ switch $output_format {
     html {
         ns_write "
 	[im_header]
-	[im_navbar]
+	[im_navbar reporting]
 	<form>
 		<table border=0 cellspacing=1 cellpadding=1>
 		<tr>
