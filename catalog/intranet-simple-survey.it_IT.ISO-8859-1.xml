@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="intranet-simple-survey" locale="it_IT" charset="ISO-8859-1">
 
+  <msg key="Context">Quotation</msg>
+  <msg key="Date">Data inserimento</msg>
+  <msg key="Entered_By">Fornita da</msg>
   <msg key="Take_a_Survey">Inserisci stima Quotation</msg>
 </message_catalog>
