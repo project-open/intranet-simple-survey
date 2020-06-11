@@ -32,7 +32,7 @@ ad_proc -public template::widget::simple_survey { element_reference tag_attribut
     # ---------------------------------------------------------------
     # Get the value of the surveys
     #
-    set project_id [im_opt_val project_id]
+    set project_id [im_opt_val -limit_to integer project_id]
     set label $element(label)
     set dynfield_attribute_sql "
  	select	min(attribute_id)
