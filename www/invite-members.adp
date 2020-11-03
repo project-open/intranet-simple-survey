@@ -5,6 +5,12 @@
 <h1>@page_title@</h1>
 
 
+<script type="text/javascript" <if @::__csp_nonce@ not nil>nonce="@::__csp_nonce;literal@"</if>>
+window.addEventListener('load', function() { 
+     document.getElementById('list_check_all_survsimp').addEventListener('click', function() { acs_ListCheckAll('alerts', this.checked) });
+});
+</script>
+
 
 <if "" eq @survey_id@>
 
@@ -74,7 +80,7 @@
 	
 	  <tr class="list-header">
 	    <th class="list-narrow">
-		<input type="checkbox" name="_dummy" onclick="acs_ListCheckAll('alerts', this.checked)" title="<%= [lang::message::lookup "" intranet-simple-survey.Check_Uncheck_all_rows "Check/Uncheck all rows"] %>" checked>
+		<input id=list_check_all_survsimp type="checkbox" name="_dummy" title="<%= [lang::message::lookup "" intranet-simple-survey.Check_Uncheck_all_rows "Check/Uncheck all rows"] %>" checked>
 	    </th>
 	    <th class="list-narrow"><%= [lang::message::lookup "" intranet-simple-survey.Email "Email"] %></th>
 	    <th class="list-narrow"><%= [lang::message::lookup "" intranet-simple-survey.Name "Name"] %></th>
