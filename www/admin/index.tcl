@@ -86,6 +86,7 @@ db_foreach group_list $group_list_sql {
     lappend group_names $group_name
     regsub -all {\-} $group_id "_" gid
     append main_sql_select "\tim_object_permission_p(ss.survey_id, $group_id, 'read') as p${gid}_read_p,\n"
+    append main_sql_select "\tim_object_permission_p(ss.survey_id, $group_id, 'survsimp_take_survey') as p${gid}_take_p,\n"
 
     append table_header "
       <td class=rowtitle><A href=$group_url?group_id=$group_id>
@@ -108,27 +109,6 @@ set table "
 [export_vars -form {return_url}]
 <table>
 $table_header\n"
-
-set ttt {
-set survsimp_sql "
-	select
-		${main_sql_select}
-		som.*,
-		som.name as som_name,
-		som.note as som_note,
-		ss.*,
-		aot.*,
-		aot.pretty_name as object_type_pretty_name
-	from
-		im_survsimp_object_map som,
-		survsimp_surveys ss,
-		acs_object_types aot
-	where
-		som.survey_id = ss.survey_id
-		and som.acs_object_type = aot.object_type
-"
-}
-
 
 set survsimp_sql "
 	select
@@ -172,9 +152,19 @@ db_foreach survsimp_query $survsimp_sql {
 	}
 	set read "<A href=[export_vars -base $toggle_url { horiz_group_id object_id action return_url}]>$letter</A>\n"
 
+	set take_p [expr "\$p${horiz_gid}_take_p"]
+	set action "add_takeable"
+	set letter "t"
+	if {$take_p == "t"} {
+	    set take "<A href=$toggle_url?object_id=$survey_id&action=remove_takeable&[export_vars { horiz_group_id return_url}]><b>T</b></A>\n"
+	    set action "remove_takeable"
+	    set letter "<b>T</b>"
+	}
+	set take "<A href=[export_vars -base $toggle_url { horiz_group_id object_id action return_url}]>$letter</A>\n"
+
 	append table "
   <td align=center>
-    $read
+    $read $take
   </td>
 "
     }
