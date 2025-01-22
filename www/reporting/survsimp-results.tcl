@@ -223,7 +223,7 @@ set counters [list]
 #
 
 # Write out HTTP header, considering CSV/MS-Excel formatting
-im_report_write_http_headers -output_format $output_format
+im_report_write_http_headers -output_format $output_format -report_name "survsimp-results"
 
 # Add the HTML select box to the head of the page
 switch $output_format {
